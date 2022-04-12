@@ -23,12 +23,12 @@ Once `pip` has finished downloading the dependencies, you can run server.
 ##### For development:
 
 ```sh
-(venv) $ uvicorn main:app --reload
+(venv)$ uvicorn main:app --reload
 ```
 
 ##### For production
 ```sh
-(venv) $ gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
+(venv)$ gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
 ```
 
 And navigate to `http://127.0.0.1:8000/docs/` to see Swagger documentation.
@@ -36,7 +36,7 @@ Or go to `http://127.0.0.1:8000/redoc/` to see ReDoc documentation.
 
 ## Tests
 
-To run the tests, `cd` into the directory `tests/v1` and run:
+To run the tests, `cd` into `tests` directory and run:
 ```sh
-(env) $ pytest
+(env)$ pytest
 ```
