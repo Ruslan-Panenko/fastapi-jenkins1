@@ -14,7 +14,7 @@ def string_to_camelcase(text):
 
 @router.get('/', status_code=status.HTTP_200_OK)
 async def main():
-    kasuria_metrics_daily = pd.read_sql_table('kasuria_metrics_daily', engine, schema='metrics')
+    kasuria_metrics_daily = pd.read_sql_table('mvp_tool_metrics', engine, schema='analytics')
     new_names = {}
     for column in kasuria_metrics_daily.columns:
         new_names[column] = string_to_camelcase(column)
