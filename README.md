@@ -1,5 +1,9 @@
 # Sharpe explorer backend
 
+## Initial Setup
+
+Don't forget to put secrets.json to src/app/core/
+
 ## Development Setup
 
 Create a virtual environment to install dependencies in and activate it:
