@@ -3,7 +3,8 @@ from re import sub
 import pandas as pd
 from fastapi import status, APIRouter
 
-from db.base import engine
+from db.base import Session, engine
+from models.kasuria import kasuria_data
 
 router = APIRouter(prefix="/metrics")
 
@@ -12,14 +13,22 @@ def string_to_camelcase(text):
     text = text.replace('.', '')
     return ''.join([text[0].lower(), text[1:]])
 
-@router.get('/', status_code=status.HTTP_200_OK)
-async def main():
-    kasuria_metrics_daily = pd.read_sql_table('kasuria_metrics_daily', engine, schema='metrics')
+
+@router.get('/{currency}/', status_code=status.HTTP_200_OK)
+async def get_all_data_by_currency(currency: str):
+    with Session() as session:
+        query = session.query(kasuria_data).filter_by(Currency=currency.upper())
+        df = pd.read_sql_query(
+            sql = query.statement,
+            con = session.bind
+        )
+    print(df)
     new_names = {}
-    for column in kasuria_metrics_daily.columns:
+    for column in df.columns:
         new_names[column] = string_to_camelcase(column)
-    print(new_names)
-    kasuria_metrics_daily = kasuria_metrics_daily.rename(columns=new_names)
-    to_json = kasuria_metrics_daily.to_json(orient="records")
+    df = df.rename(columns=new_names)
+    currency_mask = df['currency'] == currency.upper()
+    df = df.loc[currency_mask]
+    to_json = df.to_json(orient="records")
 
     return json.loads(to_json)
