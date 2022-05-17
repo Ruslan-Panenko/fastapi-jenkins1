@@ -15,9 +15,18 @@ def string_to_camelcase(text):
     return ''.join([text[0].lower(), text[1:]])
 
 
+def dataframe_to_json(df):
+    new_names = {column: string_to_camelcase(column)
+                 for column in df.columns}
+    df = df.rename(columns=new_names)
+    to_json = df.to_json(orient="records")
+
+    return json.loads(to_json)
+
+
 @router.get('/graph/', status_code=status.HTTP_200_OK)
 async def get_graph_data(
-        time_frame: int = None,
+        time_frame: str = None,
         underlying_currency: str = None,
         strategy_type: str = None,
         token_name: str = None,
@@ -27,23 +36,23 @@ async def get_graph_data(
                          ):
     with Session() as session:
         query = session.query(tr_graph).filter_by(
-            time_frame=time_frame,
-            underlying_currency=underlying_currency,
-            strategy_type=strategy_type,
-            token_name=token_name,
-            protocol=protocol,
-            pool=pool,
+            # time_frame=time_frame,
+            # underlying_currency=underlying_currency,
+            # strategy_type=strategy_type,
+            # token_name=token_name,
+            # protocol=protocol,
+            # pool=pool,
         )
         df = pd.read_sql_query(
             sql=query.statement,
             con=session.bind
         )
-    new_names = {column: string_to_camelcase(column)
-                 for column in df.columns}
-    df = df.rename(columns=new_names)
-    to_json = df[['dateOfRecord', 'trCum']].to_json(orient="records")
 
-    return json.loads(to_json)
+
+    #datetime.datetime.fromtimestamp(ms/1000.0)
+    df = df[['date_of_record', 'tr_cum']].astype({'date_of_record': str})
+
+    return dataframe_to_json(df)
 
 
 @router.get('/{currency}/', status_code=status.HTTP_200_OK)
@@ -55,9 +64,4 @@ async def get_all_data_by_currency(currency: str):
             sql=query.statement,
             con=session.bind
         )
-    new_names = {column: string_to_camelcase(column)
-                 for column in df.columns}
-    df = df.rename(columns=new_names)
-
-    to_json = df.to_json(orient="records")
-    return json.loads(to_json)
+    return dataframe_to_json(df)
