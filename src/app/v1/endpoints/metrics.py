@@ -19,6 +19,7 @@ def dataframe_to_json(df):
     new_names = {column: string_to_camelcase(column)
                  for column in df.columns}
     df = df.rename(columns=new_names)
+
     to_json = df.to_json(orient="records")
 
     return json.loads(to_json)
@@ -33,23 +34,21 @@ async def get_graph_data(
         protocol: str = None,
         pool: str = None,
 
-                         ):
+):
     with Session() as session:
         query = session.query(tr_graph).filter_by(
-            # time_frame=time_frame,
-            # underlying_currency=underlying_currency,
-            # strategy_type=strategy_type,
-            # token_name=token_name,
-            # protocol=protocol,
-            # pool=pool,
+            time_frame=time_frame,
+            underlying_currency=underlying_currency,
+            strategy_type=strategy_type,
+            token_name=token_name,
+            protocol=protocol,
+            pool=pool,
         )
         df = pd.read_sql_query(
             sql=query.statement,
             con=session.bind
         )
 
-
-    #datetime.datetime.fromtimestamp(ms/1000.0)
     df = df[['date_of_record', 'tr_cum']].astype({'date_of_record': str})
 
     return dataframe_to_json(df)
