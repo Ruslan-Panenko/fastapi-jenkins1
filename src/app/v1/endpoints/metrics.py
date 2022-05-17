@@ -3,7 +3,7 @@ from re import sub
 import pandas as pd
 from fastapi import status, APIRouter
 
-from db.base import Session, engine
+from db.base import Session
 from models.kasuria import kasuria_data
 
 router = APIRouter(prefix="/metrics")
