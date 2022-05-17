@@ -1,7 +1,10 @@
 # Sharpe explorer backend
 
-## Setup
+## Initial Setup
 
+Don't forget to put secrets.json to src/app/core/
+
+## Development Setup
 
 Create a virtual environment to install dependencies in and activate it:
 
@@ -20,19 +23,21 @@ Note the `(venv)` in front of the prompt. This indicates that this terminal
 session operates in a virtual environment set up by `virtualenv`.
 
 Once `pip` has finished downloading the dependencies, you can run server.
-##### For development:
 
 ```sh
 (venv)$ uvicorn main:app --reload
 ```
 
-##### For production
-```sh
-(venv)$ gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
-```
-
 And navigate to `http://127.0.0.1:8000/docs/` to see Swagger documentation.
 Or go to `http://127.0.0.1:8000/redoc/` to see ReDoc documentation.
+
+## Production Setup
+
+To run this Docker container you need docker and docker-compose
+```sh
+$ docker-compose up -d
+```
+Or you could run it with docker only.
 
 ## Tests
 
