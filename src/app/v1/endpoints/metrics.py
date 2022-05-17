@@ -22,10 +22,9 @@ async def get_all_data_by_currency(currency: str):
             sql = query.statement,
             con = session.bind
         )
-    new_names = {}
-    for column in df.columns:
-        new_names[column] = string_to_camelcase(column)
+    new_names = {column: string_to_camelcase(column)
+                        for column in df.columns}
     df = df.rename(columns=new_names)
+    
     to_json = df.to_json(orient="records")
-
     return json.loads(to_json)
