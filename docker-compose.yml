@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+    backend-sharpe:
+        restart: unless-stopped
+        build: .
+        container_name: backend-sharpe
+        entrypoint: gunicorn main:app -b 0.0.0.0:8000 -w 4 -k uvicorn.workers.UvicornWorker
+        volumes:
+            - './src/app:/app'
+        ports:
+            - "8000:8000"
