@@ -1,7 +1,7 @@
 import json
 from re import sub
 import pandas as pd
-from fastapi import status, APIRouter
+from fastapi import status, APIRouter, HTTPException
 
 from db.base import Session
 from models.kasuria import kasuria_data, tr_graph
@@ -48,10 +48,14 @@ async def get_graph_data(
             sql=query.statement,
             con=session.bind
         )
+        if df.empty:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail='data not found')
 
     df = df[['date_of_record', 'tr_cum']].astype({'date_of_record': str})
-
-    return dataframe_to_json(df)
+    df = dataframe_to_json(df)
+    print('dateOfRecord' in df[1].keys())
+    return df
 
 
 @router.get('/{currency}/', status_code=status.HTTP_200_OK)
@@ -63,4 +67,9 @@ async def get_all_data_by_currency(currency: str):
             sql=query.statement,
             con=session.bind
         )
+
+        if df.empty:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail=f'{currency} - is not currency')
+
     return dataframe_to_json(df)
