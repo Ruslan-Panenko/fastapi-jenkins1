@@ -56,7 +56,7 @@ async def get_graph_data(
     return dataframe_to_json(df)
 
 
-@router.get('/description/token/{token_symbol}', status_code=status.HTTP_200_OK)
+@router.get('/description/token/{token_symbol}/', status_code=status.HTTP_200_OK)
 async def get_token_description(token_symbol: str):
     with Session() as session:
         token_description = session.query(TokenDescription).filter_by(
@@ -70,7 +70,7 @@ async def get_token_description(token_symbol: str):
     return {'tokenDescription': token_description.token_description}
 
 
-@router.get('/description/protocol/{protocol_name}', status_code=status.HTTP_200_OK)
+@router.get('/description/protocol/{protocol_name}/', status_code=status.HTTP_200_OK)
 async def get_protocol_descriptions(protocol_name: str):
     with Session() as session:
         protocol_description = session.query(ProtocolDescription).filter_by(
