@@ -54,7 +54,6 @@ async def get_graph_data(
 
     df = df[['date_of_record', 'tr_cum']].astype({'date_of_record': str})
     df = dataframe_to_json(df)
-    print('dateOfRecord' in df[1].keys())
     return df
 
 
