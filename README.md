@@ -1,5 +1,11 @@
 # Sharpe explorer backend
 
+## Requirements
+
+The development was on ubuntu 20.04+ machines.
+
+Version of python is 3.8
+
 ## Initial Setup
 
 Don't forget to put secrets.json to src/app/core/
