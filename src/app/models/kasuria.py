@@ -1,7 +1,8 @@
 from db.base import engine, metadata
 import sqlalchemy
 
-kasuria_data = sqlalchemy.Table(
+# connection to  analytics.mvp_tool_metrics
+KasuriaData = sqlalchemy.Table(
     'mvp_tool_metrics',
     metadata,
     schema='analytics',
@@ -9,10 +10,29 @@ kasuria_data = sqlalchemy.Table(
     autoload_with=engine
 )
 
-tr_graph = sqlalchemy.Table(
+# connection to  analytics.mvp_tr_graph
+TrGraph = sqlalchemy.Table(
     'mvp_tr_graph',
     metadata,
     schema='analytics',
+    autoload=True,
+    autoload_with=engine
+)
+
+# connection to  stg.token_descriptions
+TokenDescription = sqlalchemy.Table(
+    'token_descriptions',
+    metadata,
+    schema='stg',
+    autoload=True,
+    autoload_with=engine
+)
+
+# connection to  stg.protocol_descriptions
+ProtocolDescriptions = sqlalchemy.Table(
+    'protocol_descriptions',
+    metadata,
+    schema='stg',
     autoload=True,
     autoload_with=engine
 )
