@@ -17,7 +17,8 @@ pipeline {
                     "cd sharpe_explorer/backend/ \
                     && git pull origin master \
                     && cd .. \
-                    && docker-compose up -d"'
+                    && docker-compose up -d \
+                    && docker-compose restart backend-sharpe"'
             }
         }
     }
