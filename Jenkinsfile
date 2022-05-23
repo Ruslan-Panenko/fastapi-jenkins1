@@ -3,12 +3,12 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                bash "source venv/bin/activate && pip install -r src/app/requirements.txt"
+                sh "venv/bin/pip install -r src/app/requirements.txt"
             }
         }
         stage('Test') { 
             steps {
-                bash "tests"
+                sh "venv/bin/python3 -m pytest"
             }
         }
         stage('Deploy') { 
