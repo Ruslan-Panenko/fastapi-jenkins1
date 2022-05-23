@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Deploy') { 
             steps {
-                sh 'ssh dima@171.25.204.100 "cd cd sharpe_explorer/backend/ \
+                sh 'ssh -o StrictHostKeyChecking=no dima@171.25.204.100 "cd cd sharpe_explorer/backend/ \
                     && git pull origin master \
                     && cd .. \
                     && docker-compose up -d"'
