@@ -13,7 +13,8 @@ pipeline {
         }
         stage('Deploy') { 
             steps {
-                sh 'ssh -o StrictHostKeyChecking=no dima@171.25.204.100 "cd cd sharpe_explorer/backend/ \
+                sh 'ssh -o StrictHostKeyChecking=no dima@171.25.204.100 -i /home/deepdows/.ssh/id_rsa \
+                    "cd sharpe_explorer/backend/ \
                     && git pull origin master \
                     && cd .. \
                     && docker-compose up -d"'
