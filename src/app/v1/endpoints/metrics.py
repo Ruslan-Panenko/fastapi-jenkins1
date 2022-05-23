@@ -4,7 +4,7 @@ import pandas as pd
 from fastapi import status, APIRouter, HTTPException
 
 from db.base import Session
-from models.kasuria import kasuria_data, tr_graph
+from models.kasuria import kasuria_data, tr_graph, token_descriptions, protocol_descriptions
 
 router = APIRouter(prefix="/metrics")
 
@@ -55,6 +55,46 @@ async def get_graph_data(
     df = df[['date_of_record', 'tr_cum']].astype({'date_of_record': str})
     df = dataframe_to_json(df)
     return df
+
+
+@router.get('/description/token/{token_symbol}', status_code=status.HTTP_200_OK)
+async def get_token_description(
+        token_symbol: str
+):
+    with Session() as session:
+        query = session.query(token_descriptions).filter_by(
+            token_symbol=token_symbol.upper()
+        )
+        df = pd.read_sql_query(
+            sql=query.statement,
+            con=session.bind
+        )
+        if df.empty:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail='data not found')
+    df = df[['token_description']]
+    df = dataframe_to_json(df)
+    return df[0]
+
+
+@router.get('/description/protocol/{protocol_name}', status_code=status.HTTP_200_OK)
+async def get_protocol_descriptions(
+        protocol_name: str
+):
+    with Session() as session:
+        query = session.query(protocol_descriptions).filter_by(
+            protocol_name=protocol_name
+        )
+        df = pd.read_sql_query(
+            sql=query.statement,
+            con=session.bind
+        )
+        if df.empty:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail='data not found')
+    df = df[['protocol_description']]
+    df = dataframe_to_json(df)
+    return df[0]
 
 
 @router.get('/{currency}/', status_code=status.HTTP_200_OK)
