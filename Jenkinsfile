@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Test') { 
             steps {
-                sh "venv/bin/python3 -m pytest"
+                sh "venv/bin/python3 -m pytest -p no:cacheprovider"
             }
         }
         stage('Deploy') { 
