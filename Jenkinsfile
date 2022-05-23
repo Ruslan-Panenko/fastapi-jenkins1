@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh "/var/lib/jenkins/workspace/sharpe/venv/bin/pip install -r src/app/requirements.txt"
+                sh "source venv/bin/activate && pip install -r src/app/requirements.txt"
             }
         }
         stage('Test') { 
