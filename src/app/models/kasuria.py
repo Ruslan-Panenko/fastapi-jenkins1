@@ -29,7 +29,7 @@ TokenDescription = sqlalchemy.Table(
 )
 
 # connection to  stg.protocol_descriptions
-ProtocolDescriptions = sqlalchemy.Table(
+ProtocolDescription = sqlalchemy.Table(
     'protocol_descriptions',
     metadata,
     schema='stg',
