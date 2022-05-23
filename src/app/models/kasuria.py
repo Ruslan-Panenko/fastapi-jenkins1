@@ -2,7 +2,7 @@ from db.base import engine, metadata
 import sqlalchemy
 
 # connection to  analytics.mvp_tool_metrics
-kasuria_data = sqlalchemy.Table(
+KasuriaData = sqlalchemy.Table(
     'mvp_tool_metrics',
     metadata,
     schema='analytics',
@@ -11,7 +11,7 @@ kasuria_data = sqlalchemy.Table(
 )
 
 # connection to  analytics.mvp_tr_graph
-tr_graph = sqlalchemy.Table(
+TrGraph = sqlalchemy.Table(
     'mvp_tr_graph',
     metadata,
     schema='analytics',
@@ -20,7 +20,7 @@ tr_graph = sqlalchemy.Table(
 )
 
 # connection to  stg.token_descriptions
-token_descriptions = sqlalchemy.Table(
+TokenDescription = sqlalchemy.Table(
     'token_descriptions',
     metadata,
     schema='stg',
@@ -29,7 +29,7 @@ token_descriptions = sqlalchemy.Table(
 )
 
 # connection to  stg.protocol_descriptions
-protocol_descriptions = sqlalchemy.Table(
+ProtocolDescriptions = sqlalchemy.Table(
     'protocol_descriptions',
     metadata,
     schema='stg',
