@@ -8,7 +8,7 @@ Version of python is 3.8
 
 ## Initial Setup
 
-Don't forget to put secrets.json to src/app/core/
+Go to src/app/core/ and copy secrets.json.example into secrets.json and change your secrets.
 
 ## Development Setup
 
