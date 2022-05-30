@@ -36,3 +36,12 @@ ProtocolDescription = sqlalchemy.Table(
     autoload=True,
     autoload_with=engine
 )
+
+# connection to  stg.protocol_descriptions
+MvpTokensCategorization = sqlalchemy.Table(
+    'mvp_tokens_categorization',
+    metadata,
+    schema='stg',
+    autoload=True,
+    autoload_with=engine
+)

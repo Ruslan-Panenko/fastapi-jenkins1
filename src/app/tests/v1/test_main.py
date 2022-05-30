@@ -64,3 +64,12 @@ def test_read_protocol_descriptions():
     )
     assert invalid_response.status_code == 400
     assert invalid_response.json() == {"detail": "data not found"}
+
+
+def test_read_token_categories():
+    # valid request token categories endpoint
+    response = client.get('/api/v1/token_categories/')
+    assert response.status_code == 200
+
+    for object in response.json():
+        assert isinstance(response.json()[object], list)
