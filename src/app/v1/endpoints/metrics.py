@@ -2,9 +2,9 @@ import json
 from re import sub
 import pandas as pd
 from fastapi import status, APIRouter, HTTPException
-
+from sqlalchemy import func
 from db.base import Session
-from models.kasuria import KasuriaData, TrGraph
+from models.kasuria import KasuriaData, TrGraph, AssetRegistry
 
 router = APIRouter(prefix="/metrics")
 
@@ -59,14 +59,15 @@ async def get_graph_data(
 @router.get('/{currency}/', status_code=status.HTTP_200_OK)
 async def get_all_data_by_currency(currency: str):
     with Session() as session:
-        query = session.query(KasuriaData).filter_by(
-            Currency=currency.upper(),
+        query = session.query(KasuriaData, AssetRegistry.c.ar_thumb)\
+            .filter(KasuriaData.c.Currency == currency.upper()).\
+            join(AssetRegistry, func.upper(AssetRegistry.c.ar_symbol) == func.upper(KasuriaData.c.Token),
+            isouter=True
         )
         df = pd.read_sql_query(
             sql=query.statement,
             con=session.bind
         )
-
         if df.empty:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                 detail=f'{currency} - is not currency')

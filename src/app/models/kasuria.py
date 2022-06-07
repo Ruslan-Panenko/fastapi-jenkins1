@@ -45,3 +45,11 @@ MvpTokensCategorization = sqlalchemy.Table(
     autoload=True,
     autoload_with=engine
 )
+# connection to  stg.asset_registry
+AssetRegistry = sqlalchemy.Table(
+    'asset_registry',
+    metadata,
+    schema='stg',
+    autoload=True,
+    autoload_with=engine
+)
